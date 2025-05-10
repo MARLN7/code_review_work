@@ -6,8 +6,8 @@ on:
   pull_request:
     branches: [ "bondarevyi" ]
   schedule:
-    - cron: '30 12 * * 3'  
-    - cron: '0 22 * * 5'    
+    - cron: '30 12 * * 3'  # Среда 12:30
+    - cron: '0 22 * * 5'    # Пятница 22:00
 
 permissions:
   contents: read
@@ -17,45 +17,53 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          ref: bondarevyi  
+          ref: bondarevyi
       
       - name: Make gradlew executable
+        if: runner.os != 'Windows'
         run: chmod +x gradlew
         shell: bash
       
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '11'
           distribution: 'temurin'
+          cache: 'gradle'
       
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: build
           
   multi-platform-build:
-    needs: build  
+    needs: build
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        java: [11, 13, 17]
+        java: [11, 17, 21]  # Заменяем 13 на поддерживаемые LTS-версии
     runs-on: ${{ matrix.os }}
     
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: bondarevyi
       
+      - name: Make gradlew executable
+        if: runner.os != 'Windows'
+        run: chmod +x gradlew
+        shell: bash
+      
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
+          cache: 'gradle'
       
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: build
