@@ -43,7 +43,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        java: [8, 11,]  # Заменяем 13 на поддерживаемые LTS-версии
+        java: [11, 17]  # Заменяем 13 на поддерживаемые LTS-версии
     runs-on: ${{ matrix.os }}
     
     steps:
