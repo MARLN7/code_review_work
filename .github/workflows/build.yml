@@ -1,22 +1,28 @@
 name: Java CI with Gradle
 
 on:
+  # З
   push:
     branches: [ "bondarevyi" ]
   pull_request:
     branches: [ "bondarevyi" ]
+  
+  schedule:
+    - cron: '30 12 * * 3'  
+    - cron: '0 22 * * 5'    
 
 permissions:
   contents: read
 
 jobs:
+  
   build:
     runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: bondarevyi
+          ref: bondarevyi  
       
       - name: Set up JDK 11
         uses: actions/setup-java@v3
@@ -28,3 +34,5 @@ jobs:
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: build
+
+ 
