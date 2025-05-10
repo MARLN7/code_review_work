@@ -22,9 +22,6 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: bondarevyi
-      
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v4
         with:
@@ -32,6 +29,6 @@ jobs:
           distribution: 'temurin'
       
       - name: Build with Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582
         with:
-          arguments: build
+          run: ./gradlew build
