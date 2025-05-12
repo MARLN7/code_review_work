@@ -33,5 +33,5 @@ jobs:
         with:
           run: ./gradlew build
 
-      - name: Run Tests with Gradle Wrapper
-        run: ./gradlew test
+#      - name: Run Tests with Gradle Wrapper
+#        run: ./gradlew test
