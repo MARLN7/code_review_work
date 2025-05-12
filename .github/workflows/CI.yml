@@ -1,13 +1,16 @@
 name: Java CI with Gradle
 
 on:
-  schedule:
-    - cron: '30 12 * * 3'
-    - cron: '0 22 * * 5'
   push:
     branches: [ "lashkinna2" ]
   pull_request:
     branches: [ "lashkinna2" ]
+  schedule:
+    - cron: '30 12 * * 3'
+    - cron: '0 22 * * 5'
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -25,14 +28,10 @@ jobs:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
 
-      - name: Setup Gradle
+      - name: Build with Gradle
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582
-
-      - name: Make gradlew executable
-        run: chmod +x gradlew
-
-      - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        with:
+          run: ./gradlew build
 
       - name: Run Tests with Gradle Wrapper
         run: ./gradlew test
