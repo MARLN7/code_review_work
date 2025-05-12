@@ -1,6 +1,9 @@
 name: Java CI with Gradle
 
 on:
+  schedule:
+    - cron: '30 12 * * 3'
+    - cron: '0 22 * * 5'
   push:
     branches: [ "lashkinna2" ]
   pull_request:
@@ -32,3 +35,4 @@ jobs:
 
       - name: Run Tests with Gradle Wrapper
         run: ./gradlew test
+
